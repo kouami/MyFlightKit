@@ -1,0 +1,644 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical">
+
+    <!--<com.example.efoeakolly.flightkit.NiceSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nice_spinner"
+        android:text="Select Plane Model"
+        android:layout_gravity="center"
+        android:ellipsize="marquee"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/colorPrimary"/>-->
+    <Spinner
+        android:id="@+id/choice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:background="@drawable/border"
+        android:padding="5dp" />
+
+
+    <!-- Top Table Layout -->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="1dp">
+
+            <TextView
+
+                android:layout_column="0"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_red"
+                android:maxLines="1"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Default AC Data"
+                android:textSize="10sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+
+                android:layout_column="1"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_yellow"
+                android:maxLines="1"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Weight(lbs)"
+                android:textSize="10sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+
+                android:layout_column="2"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_yellow"
+                android:maxLines="1"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Arm (inches) "
+                android:textSize="10sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+
+                android:layout_column="3"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_silver"
+                android:maxLines="1"
+                android:padding="5sp"
+                android:text="Moment(in-lb)"
+                android:textSize="10sp"
+                android:textStyle="bold|italic" />
+
+        </TableRow>
+        <!-- Empty Weight Row -->
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="1dp">
+
+            <TextView
+                android:layout_column="0"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_yellow"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Empty Weight "
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/emptyWeight"
+                android:layout_column="1"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="1489"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/emptyArm"
+                android:layout_column="2"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="38.8"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/emptyMoment"
+                android:layout_column="3"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="57773"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+        </TableRow>
+
+        <!-- Front Left Seat -->
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="1dp">
+
+            <TextView
+                android:layout_column="0"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_yellow"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Front Seats "
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/flSeatWeight"
+                android:layout_column="1"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="190"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/flSeatArm"
+                android:layout_column="2"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="37"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/flSeatMoment"
+                android:layout_column="3"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="12025"
+                android:maxLines="1"
+                android:padding="5sp" />
+        </TableRow>
+
+        <!-- Front Right Seat -->
+        <!--<TableRow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="1dp">
+
+            <TextView
+                android:layout_column="0"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_yellow"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Front Right Seat "
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/frSeatWeight"
+                android:layout_column="1"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="135"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/frSeatArm"
+                android:layout_column="2"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="37"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/frSeatMoment"
+                android:layout_column="3"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="12025"
+                android:maxLines="1"
+                android:padding="5sp" />
+        </TableRow> -->
+
+        <!-- Rear Left Seat -->
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="1dp">
+
+            <TextView
+                android:layout_column="0"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_yellow"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Rear Seats"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/rlSeatWeight"
+                android:layout_column="1"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="180"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/rlSeatArm"
+                android:layout_column="2"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="73"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/rlSeatMoment"
+                android:layout_column="3"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="13140"
+                android:maxLines="1"
+                android:padding="5sp" />
+        </TableRow>
+
+        <!-- Rear Right Seat -->
+        <!--<TableRow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="1dp">
+
+            <TextView
+                android:layout_column="0"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_yellow"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Rear Right Seat "
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/rrSeatWeight"
+                android:layout_column="1"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="0"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/rrSeatArm"
+                android:layout_column="2"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="73"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/rrSeatMoment"
+                android:layout_column="3"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="13140"
+                android:maxLines="1"
+                android:padding="5sp" />
+        </TableRow> -->
+
+        <!-- Baggage -->
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="1dp">
+
+            <TextView
+                android:layout_column="0"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_yellow"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Baggage"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/baggageWeight"
+                android:layout_column="1"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="55"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/baggageArm"
+                android:layout_column="2"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="95"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/baggageMoment"
+                android:layout_column="3"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="5225"
+                android:maxLines="1"
+                android:padding="5sp" />
+        </TableRow>
+
+        <!-- Oil qt-->
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="1dp">
+
+            <EditText
+                android:id="@+id/oilQty"
+                android:layout_column="0"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="Oil(6 qt)"
+                android:maxLines="1"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/oilWeight"
+                android:layout_column="1"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="11"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/oilArm"
+                android:layout_column="2"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="-14"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/oilMoment"
+                android:layout_column="3"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="-147"
+                android:maxLines="1"
+                android:padding="5sp" />
+        </TableRow>
+
+        <!-- Fuel -->
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="1dp">
+
+            <EditText
+                android:id="@+id/fuelQty"
+                android:layout_column="0"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="Fuel(40 gal)"
+                android:maxLines="1"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/fuelWeight"
+                android:layout_column="1"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="240"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/fuelArm"
+                android:layout_column="2"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="48"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/fuelMoment"
+                android:layout_column="3"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="11520"
+                android:maxLines="1"
+                android:padding="5sp" />
+        </TableRow>
+
+        <!-- Gross Weight -->
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:padding="5sp"
+                android:text=""
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/calculate"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_column="1"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/gradient_orange"
+                android:text="Calculate"
+                android:textSize="10sp"
+                android:maxLines="2"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_column="2"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/gradient_orange"
+                android:text="Reset"
+                android:textSize="10sp"
+                android:maxLines="2"/>
+
+
+        </TableRow>
+    </TableLayout>
+
+    <!-- Bottom Table Layout -->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp">
+
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_column="0"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_green"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Gross Weight (2300 lb max) "
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_column="1"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_green"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Sum of all Moment"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_column="2"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_green"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Loaded Center of Gravity"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_column="3"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_green"
+                android:padding="5sp"
+                android:scrollHorizontally="false"
+                android:text="Maneuvring Speed"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp">
+
+            <EditText
+                android:id="@+id/grossWeight"
+                android:layout_column="0"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="2300"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/totMoment"
+                android:layout_column="1"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="99536"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/centerOfGravity"
+                android:layout_column="2"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="43.29"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+            <EditText
+                android:id="@+id/maneuveringSpeed"
+                android:layout_column="3"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edit_text"
+                android:hint="97"
+                android:maxLines="1"
+                android:padding="5sp" />
+
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/disclaimerTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/gradient_aubergine"
+            android:padding="5sp"
+            android:text="Disclaimer:\nThis is a Disclaimer. Use it at you own risk.\nAlways make to refere to your POH"
+            android:textAlignment="center"
+            android:maxLines="10"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,20 +1,24 @@
 package com.example.efoeakolly.flightkit.models;
 
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
+
 import java.util.List;
 
 /**
  * Created by efoeakolly on 6/15/16.
  */
-
+@Root
 public class Aircrafts {
 
-    private List<Aircraft> aircraftList;
+    @ElementList
+    private List<Aircraft> list;
 
-    public List<Aircraft> getAircraftList() {
-        return aircraftList;
+    public List<Aircraft> getList() {
+        return list;
     }
 
-    public void setAircraftList(List<Aircraft> aircraftList) {
-        this.aircraftList = aircraftList;
+    public void setList(List<Aircraft> list) {
+        this.list = list;
     }
 }

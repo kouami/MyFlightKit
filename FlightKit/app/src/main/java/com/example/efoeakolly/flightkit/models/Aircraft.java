@@ -1,17 +1,38 @@
 package com.example.efoeakolly.flightkit.models;
 
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+
 /**
  * Created by efoeakolly on 6/15/16.
  */
 
+
 public class Aircraft {
 
+    @Attribute
     private String model;
+
+    @Element
     private EmptyWeight emptyWeight;
+
+    @Element
     private FrontSeat frontSeat;
+
+    @Element
     private RearSeat rearSeat;
+
+    @Element
     private Fuel fuel;
+
+    @Element
+    private Baggage baggage;
+
+    @Element
     private Oil oil;
+
+    @Element
     private double maneuvringSpeed;
 
     public String getModel() {
@@ -52,6 +73,14 @@ public class Aircraft {
 
     public void setFuel(Fuel fuel) {
         this.fuel = fuel;
+    }
+
+    public Baggage getBaggage() {
+        return baggage;
+    }
+
+    public void setBaggage(Baggage baggage) {
+        this.baggage = baggage;
     }
 
     public Oil getOil() {

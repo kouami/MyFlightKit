@@ -1,24 +1,21 @@
 package com.example.efoeakolly.flightkit;
 
-import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.PointF;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 
 
 import com.example.efoeakolly.flightkit.fragments.CGGraphFragment;
-import com.example.efoeakolly.flightkit.fragments.CompatibilityUtil;
 import com.example.efoeakolly.flightkit.fragments.WeightAndBalanceFragment;
-
-import java.util.List;
+import com.example.efoeakolly.flightkit.models.Aircrafts;
+import com.example.efoeakolly.flightkit.utils.CompatibilityUtil;
+import com.example.efoeakolly.flightkit.utils.XMLDBReader;
 
 public class MainActivity extends FragmentActivity /*AppCompatActivity*/ {
+
+    private Aircrafts aircrafts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +33,9 @@ public class MainActivity extends FragmentActivity /*AppCompatActivity*/ {
             //this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }*/
         setContentView(R.layout.activity_main);
+
+        aircrafts = XMLDBReader.getAircrafts();
+
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -109,26 +109,6 @@ public class MainActivity extends FragmentActivity /*AppCompatActivity*/ {
 
             // Commit the transaction
             transaction.commit();
-        }
-    }
-
-    /**
-     * @param context
-     * @return
-     */
-    private boolean isLargeDevice(Context context) {
-        int screenLayout = context.getResources().getConfiguration().screenLayout;
-        screenLayout &= Configuration.SCREENLAYOUT_SIZE_MASK;
-
-        switch (screenLayout) {
-            case Configuration.SCREENLAYOUT_SIZE_SMALL:
-            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
-                return false;
-            case Configuration.SCREENLAYOUT_SIZE_LARGE:
-            case Configuration.SCREENLAYOUT_SIZE_XLARGE:
-                return true;
-            default:
-                return true;
         }
     }
 }

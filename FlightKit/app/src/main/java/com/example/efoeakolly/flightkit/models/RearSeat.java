@@ -1,12 +1,17 @@
 package com.example.efoeakolly.flightkit.models;
 
+import org.simpleframework.xml.Element;
+
 /**
  * Created by efoeakolly on 6/15/16.
  */
 
 public class RearSeat {
 
+    @Element
     private double arm;
+
+    @Element
     private double moment;
 
     public double getArm() {

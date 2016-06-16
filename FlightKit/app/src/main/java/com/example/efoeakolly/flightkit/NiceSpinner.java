@@ -4,7 +4,9 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -116,8 +118,10 @@ public class NiceSpinner extends TextView {
 
         backgroundSelector = typedArray.getResourceId(R.styleable.NiceSpinner_backgroundSelector, R.drawable.selector);
         setBackgroundResource(backgroundSelector);
-        textColor = typedArray.getColor(R.styleable.NiceSpinner_textTint, -1);
+        textColor = typedArray.getColor(R.styleable.NiceSpinner_textTint, Color.BLUE);
         setTextColor(textColor);
+        setTextSize(20.0f);
+        this.setHeight(150);
 
 
         listView = new ListView(context);

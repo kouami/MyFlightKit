@@ -4,7 +4,7 @@
     android:layout_weight="1"
     android:orientation="vertical">
 
-    <!--<com.example.efoeakolly.flightkit.NiceSpinner
+    <com.example.efoeakolly.flightkit.NiceSpinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/nice_spinner"
@@ -13,14 +13,15 @@
         android:ellipsize="marquee"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textColor="@color/colorPrimary"/>-->
-    <Spinner
+        android:textColor="@color/colorPrimary"/>
+
+    <!--<Spinner
         android:id="@+id/choice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="1dp"
         android:background="@drawable/border"
-        android:padding="5dp" />
+        android:padding="5dp" /> -->
 
 
     <!-- Top Table Layout -->

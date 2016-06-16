@@ -26,12 +26,7 @@ public class MainActivity extends FragmentActivity /*AppCompatActivity*/ {
         } else {
             this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-        /*if (isLargeDevice(getBaseContext())) {
-            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        } else {
-            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            //this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }*/
+
         setContentView(R.layout.activity_main);
 
         aircrafts = XMLDBReader.getAircrafts();
@@ -62,7 +57,6 @@ public class MainActivity extends FragmentActivity /*AppCompatActivity*/ {
             // Add the fragment to the 'fragment_container' FrameLayout
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.fragment_container, wbFragment);
-            //ft.add(R.id.fragment_container, cgFragment);
             ft.commit();
 
             //ft.replace(R.id.fragment_container, cgFragment);

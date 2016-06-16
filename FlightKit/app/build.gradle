@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/notice.txt'
+    }
 }
 
 dependencies {
@@ -26,6 +30,7 @@ dependencies {
     compile 'com.jjoe64:graphview:4.0.1'
     compile 'com.github.amlcurran.showcaseview:library:5.4.3'
     compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
     compile('org.simpleframework:simple-xml:2.7.+'){
         exclude module: 'stax'
         exclude module: 'stax-api'

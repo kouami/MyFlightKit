@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aircrafts>
+    <list>
+    <aircraft model="172N">
+        <emptyWeight weight="1489">
+            <arm>38.8</arm>
+            <moment>57773</moment>
+        </emptyWeight>
+        <frontSeat>
+            <arm>37</arm>
+            <moment>12025</moment>
+        </frontSeat>
+        <rearSeat>
+            <arm>73</arm>
+            <moment>13140</moment>
+        </rearSeat>
+        <baggage>
+            <arm>95</arm>
+            <moment>5225</moment>
+        </baggage>
+        <oil>
+            <arm>14</arm>
+            <moment>-147</moment>
+        </oil>
+        <fuel>
+            <arm>48</arm>
+            <moment>11520</moment>
+        </fuel>
+        <maneuvringSpeed>97</maneuvringSpeed>
+    </aircraft>
+    </list>
+</aircrafts>

@@ -4,7 +4,11 @@ import android.content.pm.ActivityInfo;
 import android.graphics.PointF;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 
 import com.example.efoeakolly.flightkit.fragments.CGGraphFragment;
@@ -13,15 +17,25 @@ import com.example.efoeakolly.flightkit.models.Aircrafts;
 import com.example.efoeakolly.flightkit.utils.CompatibilityUtil;
 import com.example.efoeakolly.flightkit.utils.XMLDBReader;
 
-public class MainActivity extends FragmentActivity /*AppCompatActivity*/ {
+public class MainActivity extends FragmentActivity implements WeightAndBalanceFragment.OnCalculateButtonPressedListener/*AppCompatActivity*/ {
 
     private Aircrafts aircrafts;
+    private static final String WB_FRAGMENT_TAG = "W&B_FRAG";
+
+
+    private WeightAndBalanceFragment wbFragment;
+    private CGGraphFragment cgGraphFragment;
+
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private Button calcButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(CompatibilityUtil.isTablet(getBaseContext())){
+        if (CompatibilityUtil.isTablet(getBaseContext())) {
             this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         } else {
             this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -31,6 +45,8 @@ public class MainActivity extends FragmentActivity /*AppCompatActivity*/ {
 
         aircrafts = XMLDBReader.getAircrafts();
 
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -44,34 +60,48 @@ public class MainActivity extends FragmentActivity /*AppCompatActivity*/ {
             }
 
             // Create a new Fragment to be placed in the activity layout
-            WeightAndBalanceFragment wbFragment = new WeightAndBalanceFragment();
+            wbFragment = new WeightAndBalanceFragment();
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
             wbFragment.setArguments(getIntent().getExtras());
 
-            CGGraphFragment cgFragment = new CGGraphFragment();
-
-
 
             // Add the fragment to the 'fragment_container' FrameLayout
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.fragment_container, wbFragment);
-            ft.commit();
+            fragmentTransaction.add(R.id.fragment_container, wbFragment, WB_FRAGMENT_TAG);
+            fragmentTransaction.commit();
+            fragmentManager.executePendingTransactions();
 
-            //ft.replace(R.id.fragment_container, cgFragment);
-            //ft.addToBackStack(null);
-            //ft.commit();
+            WeightAndBalanceFragment fragment = (WeightAndBalanceFragment) fragmentManager.findFragmentByTag(WB_FRAGMENT_TAG);
 
-            /*
-            //ft.add(R.id.fragment_container, new CGGraphFragment());
-            //ft.commit();
-            //List<Fragment> fragments = getSupportFragmentManager().getFragments();
-            //Log.d("Num Frag ::: ", "" + fragments);
+            //calcButton = fragment.getCalculateButton();
 
             //getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new CGGraphFragment()).commit();
-            //onWeightAndBalanceCalculate();*/
+            //onWeightAndBalanceCalculate();
         }
+
+        /*cgGraphFragment = new CGGraphFragment();
+
+
+        calcButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CGGraphFragment fragment = (CGGraphFragment) fragmentManager.findFragmentByTag(CG_GRAPH_FRAGMENT_TAG);
+                if (fragment == null) {
+                    Bundle bundle = new Bundle();
+                    //bundle.putString(KEY_MSG_3, "Replace MyFragment3");
+                    cgGraphFragment.setArguments(bundle);
+
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, cgGraphFragment, CG_GRAPH_FRAGMENT_TAG);
+                    fragmentTransaction.commit();
+
+                } else {
+                    Log.d("CG_GRAPH_FRAGMENT_TAG", "CG_GRAPH_FRAGMENT_TAG already loaded");
+                }
+            }
+        });*/
+
     }
 
     public void onWeightAndBalanceCalculate() {

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.efoeakolly.flightkit.R;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
@@ -25,6 +26,8 @@ import com.jjoe64.graphview.series.PointsGraphSeries;
  */
 
 public class CGGraphFragment extends Fragment {
+
+    private OnBackButtonPressedListener mCallback;
 
     private static String TITLE = "Weight & Balance Graph";
     private static final String[] cgValues = {"34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48"};
@@ -45,6 +48,11 @@ public class CGGraphFragment extends Fragment {
         View v = inflater.inflate(R.layout.cg_graph, container, false);
         initGraph(v);
         return v;
+    }
+
+    public interface OnBackButtonPressedListener {
+        /** Called by WeightAndBalanceFragment when the calculate button is pressed */
+        public void onWeightAndBalanceCalculate();
     }
 
     /**
@@ -72,6 +80,7 @@ public class CGGraphFragment extends Fragment {
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(1400);
         graph.getViewport().setMaxY(2400);
+        graph.getViewport().setScalable(true);
 
         graph.getGridLabelRenderer().setLabelsSpace(5);
 
@@ -96,6 +105,8 @@ public class CGGraphFragment extends Fragment {
 
         graph.addSeries(utilityCategory);
         plotCGPoint(new PointF(36.0f, 1500.0f));
+
+
     }
 
     public void plotCGPoint(PointF cgp){

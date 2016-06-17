@@ -6,6 +6,8 @@ import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,6 +65,14 @@ public class WeightAndBalanceFragment extends Fragment {
 
     private Drawable alertIndicator;
 
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private static final String CG_GRAPH_FRAGMENT_TAG = "CG_G_FRAG";
+
+    public Button getCalculateButton() {
+        return calculateButton;
+    }
+
     private Button calculateButton;
 
     private SingleEngineAircraft sa1;
@@ -79,10 +89,12 @@ public class WeightAndBalanceFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.weight_bal_form, container, false);
-
+        fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
         //Setup all the components
         setSpinnerContent(view);
         setInputs(view);
+
 
         return view;
     }
@@ -92,13 +104,15 @@ public class WeightAndBalanceFragment extends Fragment {
      * @param view
      */
     private void setSpinnerContent( View view ) {
-        /*NiceSpinner niceSpinner = (NiceSpinner) view.findViewById(R.id.nice_spinner);
+
+        NiceSpinner niceSpinner = (NiceSpinner) view.findViewById(R.id.nice_spinner);
         List<String> dataset = new LinkedList<>(Arrays.asList("One", "Two", "Three", "Four", "Five","Six","Seven"));
-        niceSpinner.attachDataSource(dataset);*/
-        choice = (Spinner) view.findViewById(R.id.choice);
+        niceSpinner.attachDataSource(dataset);
+
+        /*choice = (Spinner) view.findViewById(R.id.choice);
         List<String> dataset = new LinkedList<>(Arrays.asList("Select Your Plane Model", "172N", "172S", "172P", "172RG", "172R-NAV","Six","Seven"));
         ArrayAdapter adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, dataset);
-        choice.setAdapter(adapter);
+        choice.setAdapter(adapter);*/
 
 
     }
@@ -210,6 +224,24 @@ public class WeightAndBalanceFragment extends Fragment {
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Log.d("onClick","HAHAHAHAHAHAHAHAHAHAHAHAHAHAHA");
+                CGGraphFragment fragment = (CGGraphFragment) fragmentManager.findFragmentById(R.id.cg_graph_fragment);//.findFragmentByTag(CG_GRAPH_FRAGMENT_TAG);
+
+                if (fragment == null) {
+                    Bundle bundle = new Bundle();
+                    //bundle.putString(KEY_MSG_3, "Replace MyFragment3");
+                    CGGraphFragment cgGraphFragment = new CGGraphFragment();
+                    cgGraphFragment.setArguments(bundle);
+
+                    //fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, cgGraphFragment, CG_GRAPH_FRAGMENT_TAG);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
+                } else {
+                    Log.d("CG_GRAPH_FRAGMENT_TAG", "CG_GRAPH_FRAGMENT_TAG already loaded");
+                    // do whatever here
+                }
                 //calculateCG();
             }
         });
@@ -223,7 +255,7 @@ public class WeightAndBalanceFragment extends Fragment {
     private PointF calculateCG() {
 
         // validate all inputs first
-        validateAllInputs();
+        //validateAllInputs();
 
         PointF cgPoint = new PointF();
         double grossWeight = 0.0;
@@ -288,7 +320,7 @@ public class WeightAndBalanceFragment extends Fragment {
         public void onWeightAndBalanceCalculate();
     }
 
-    /*@Override
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
@@ -300,7 +332,7 @@ public class WeightAndBalanceFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnCalculateButtonPressedListener");
         }
-    }*/
+    }
 
 
 

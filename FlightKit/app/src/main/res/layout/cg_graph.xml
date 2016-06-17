@@ -20,9 +20,25 @@
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"
         android:layout_width="match_parent"
-        android:layout_height="200dip"
+        android:layout_height="300dip"
         android:title="Graph Title"
         android:background="@drawable/gradient_green"
         android:layout_below="@+id/linetext"/>
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_column="1"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/gradient_orange"
+        android:text="Back"
+        android:textSize="10sp"
+        android:maxLines="2"
+        android:layout_below="@id/graph"
+        android:layout_alignParentLeft="true"/>
+
 
 </RelativeLayout>

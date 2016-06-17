@@ -9,7 +9,6 @@
     <fragment
         android:name="com.example.efoeakolly.flightkit.fragments.WeightAndBalanceFragment"
         android:id="@+id/wb_fragment"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout="@layout/weight_bal_form" />
@@ -17,7 +16,6 @@
     <fragment
         android:name="com.example.efoeakolly.flightkit.fragments.CGGraphFragment"
         android:id="@+id/cg_graph_fragment"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout="@layout/cg_graph" />

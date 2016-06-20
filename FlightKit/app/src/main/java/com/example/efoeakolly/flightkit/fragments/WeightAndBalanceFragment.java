@@ -17,96 +17,112 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.efoeakolly.flightkit.NiceSpinner;
 import com.example.efoeakolly.flightkit.R;
 import com.example.efoeakolly.flightkit.SQLiteHelper;
 import com.example.efoeakolly.flightkit.SingleEngineAircraft;
+import com.mobsandgeeks.saripaar.Rule;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
+import com.mobsandgeeks.saripaar.annotation.Digits;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import butterknife.BindDrawable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by efoeakolly on 6/9/16.
  */
 
-public class WeightAndBalanceFragment extends Fragment {
+public class WeightAndBalanceFragment extends Fragment implements Validator.ValidationListener {
 
     OnCalculateButtonPressedListener mCallback;
 
     private Spinner choice;
 
-    private EditText emptyWeight;
-    private EditText emptyArm;
-    private EditText emptyMoment;
+    @NotEmpty @BindView(R.id.emptyWeight)   EditText emptyWeight;
+    @NotEmpty @BindView(R.id.emptyArm)      EditText emptyArm;
+    @NotEmpty @BindView(R.id.emptyMoment)   EditText emptyMoment;
+    @NotEmpty @BindView(R.id.flSeatWeight)  EditText flSeatWeight;
+    @NotEmpty @BindView(R.id.flSeatArm)     EditText flSeatArm;
+    @NotEmpty @BindView(R.id.flSeatMoment)  EditText flSeatMoment;
+    @NotEmpty @BindView(R.id.rlSeatWeight)  EditText rlSeatWeight;
+    @NotEmpty @BindView(R.id.rlSeatArm)     EditText rlSeatArm;
+    @NotEmpty @BindView(R.id.rlSeatMoment)  EditText rlSeatMoment;
+    @NotEmpty @BindView(R.id.baggageWeight) EditText baggageWeight;
+    @NotEmpty @BindView(R.id.baggageArm)    EditText baggageArm;
+    @NotEmpty @BindView(R.id.baggageMoment) EditText baggageMoment;
+    @NotEmpty @BindView(R.id.oilQty)        EditText oilQty;
+    @NotEmpty @BindView(R.id.oilWeight)     EditText oilWeight;
+    @NotEmpty @BindView(R.id.oilArm)        EditText oilArm;
+    @NotEmpty @BindView(R.id.oilMoment)     EditText oilMoment;
+    @NotEmpty @BindView(R.id.fuelQty)       EditText fuelQty;
+    @NotEmpty @BindView(R.id.fuelWeight)    EditText fuelWeight;
+    @NotEmpty @BindView(R.id.fuelArm)       EditText fuelArm;
+    @NotEmpty @BindView(R.id.fuelMoment)    EditText fuelMoment;
 
-    private EditText flSeatWeight;
-    private EditText flSeatArm;
-    private EditText flSeatMoment;
-
-    private EditText rlSeatWeight;
-    private EditText rlSeatArm;
-    private EditText rlSeatMoment;
-
-    private EditText baggageWeight;
-    private EditText baggageArm;
-    private EditText baggageMoment;
-
-    private EditText oilQty;
-    private EditText oilWeight;
-    private EditText oilArm;
-    private EditText oilMoment;
-
-    private EditText fuelQty;
-    private EditText fuelWeight;
-    private EditText fuelArm;
-    private EditText fuelMoment;
-
-    private Drawable alertIndicator;
+    @BindDrawable(R.drawable.alert) Drawable alertIndicator;
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private static final String CG_GRAPH_FRAGMENT_TAG = "CG_G_FRAG";
+    private static final String EMPTY_SPACE = "";
+    private ClickListener editTextListener;
+    private Validator validator;
 
-    public Button getCalculateButton() {
-        return calculateButton;
-    }
 
     private Button calculateButton;
+    private Button resetButton;
 
     private SingleEngineAircraft sa1;
 
     /**
-     *
      * @param inflater
      * @param container
      * @param savedInstanceState
      * @return
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
+        //Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.weight_bal_form, container, false);
         fragmentManager = getActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
+        editTextListener = new ClickListener();
+        ButterKnife.bind(this, view);
+
         //Setup all the components
         setSpinnerContent(view);
         setInputs(view);
 
+        /* Create Validator object to -
+         * call the setValidationListener method of Validator class.
+         */
+        validator = new Validator(this);
+
+        // Call the validation listener method.
+        validator.setValidationListener(this);
 
         return view;
     }
 
     /**
-     *
      * @param view
      */
-    private void setSpinnerContent( View view ) {
+    private void setSpinnerContent(View view) {
 
         NiceSpinner niceSpinner = (NiceSpinner) view.findViewById(R.id.nice_spinner);
-        List<String> dataset = new LinkedList<>(Arrays.asList("One", "Two", "Three", "Four", "Five","Six","Seven"));
+        List<String> dataset = new LinkedList<>(Arrays.asList("One", "Two", "Three", "Four", "Five", "Six", "Seven"));
         niceSpinner.attachDataSource(dataset);
 
         /*choice = (Spinner) view.findViewById(R.id.choice);
@@ -118,31 +134,31 @@ public class WeightAndBalanceFragment extends Fragment {
     }
 
     /**
-     *
      * @param view
      */
-    private void setInputs (View view) {
+    private void setInputs(View view) {
 
         SQLiteHelper db = new SQLiteHelper(getActivity());
-        sa1 = new SingleEngineAircraft("172N",1489,38.8,57773,11,-14,-147,37,12025,73,13140,48,11520,95,5225);
+        sa1 = new SingleEngineAircraft("172N", 1489, 38.8, 57773, 11, -14, -147, 37, 12025, 73, 13140, 48, 11520, 95, 5225);
         db.addAircraft(sa1);
 
 
-        alertIndicator = ResourcesCompat.getDrawable(getResources(), R.drawable.alert, null);
-        emptyWeight = (EditText) view.findViewById(R.id.emptyWeight);
+        //alertIndicator = ResourcesCompat.getDrawable(getResources(), R.drawable.alert, null);
+        //emptyWeight = (EditText) view.findViewById(R.id.emptyWeight);
+        emptyWeight.setOnClickListener(editTextListener);
         emptyWeight.setRawInputType(Configuration.KEYBOARD_12KEY);
-        emptyArm = (EditText) view.findViewById(R.id.emptyArm);
+        //emptyArm = (EditText) view.findViewById(R.id.emptyArm);
         emptyArm.setRawInputType(Configuration.KEYBOARD_12KEY);
-        emptyMoment = (EditText) view.findViewById(R.id.emptyMoment);
+        //emptyMoment = (EditText) view.findViewById(R.id.emptyMoment);
         emptyMoment.setRawInputType(Configuration.KEYBOARD_12KEY);
 
 
-
-        flSeatWeight = (EditText) view.findViewById(R.id.flSeatWeight);
+        //flSeatWeight = (EditText) view.findViewById(R.id.flSeatWeight);
+        flSeatWeight.setOnClickListener(editTextListener);
         flSeatWeight.setRawInputType(Configuration.KEYBOARD_12KEY);
-        flSeatArm = (EditText) view.findViewById(R.id.flSeatArm);
+        //flSeatArm = (EditText) view.findViewById(R.id.flSeatArm);
         flSeatArm.setRawInputType(Configuration.KEYBOARD_12KEY);
-        flSeatMoment = (EditText) view.findViewById(R.id.flSeatMoment);
+        //flSeatMoment = (EditText) view.findViewById(R.id.flSeatMoment);
         flSeatMoment.setRawInputType(Configuration.KEYBOARD_12KEY);
 
 
@@ -157,11 +173,12 @@ public class WeightAndBalanceFragment extends Fragment {
         validateEditText(frSeatArm, "This Field cannot be empty!", alertIndicator);
         validateEditText(frSeatMoment, "This Field cannot be empty!", alertIndicator);*/
 
-        rlSeatWeight = (EditText) view.findViewById(R.id.rlSeatWeight);
-        rlSeatWeight.setRawInputType(Configuration.KEYBOARD_12KEY);
+        //rlSeatWeight = (EditText) view.findViewById(R.id.rlSeatWeight);
+        rlSeatWeight.setOnClickListener(editTextListener);
+        //rlSeatWeight.setRawInputType(Configuration.KEYBOARD_12KEY);
         rlSeatArm = (EditText) view.findViewById(R.id.rlSeatArm);
         rlSeatArm.setRawInputType(Configuration.KEYBOARD_12KEY);
-        rlSeatMoment = (EditText) view.findViewById(R.id.rlSeatMoment);
+        //rlSeatMoment = (EditText) view.findViewById(R.id.rlSeatMoment);
         rlSeatMoment.setRawInputType(Configuration.KEYBOARD_12KEY);
 
 
@@ -176,44 +193,48 @@ public class WeightAndBalanceFragment extends Fragment {
         validateEditText(rrSeatArm, "This Field cannot be empty!", alertIndicator);
         validateEditText(rrSeatMoment, "This Field cannot be empty!", alertIndicator);*/
 
-        baggageWeight = (EditText) view.findViewById(R.id.baggageWeight);
+        //baggageWeight = (EditText) view.findViewById(R.id.baggageWeight);
+        baggageWeight.setOnClickListener(editTextListener);
         baggageWeight.setRawInputType(Configuration.KEYBOARD_12KEY);
-        baggageArm = (EditText) view.findViewById(R.id.baggageArm);
+        //baggageArm = (EditText) view.findViewById(R.id.baggageArm);
         baggageArm.setRawInputType(Configuration.KEYBOARD_12KEY);
-        baggageMoment = (EditText) view.findViewById(R.id.baggageMoment);
+        //baggageMoment = (EditText) view.findViewById(R.id.baggageMoment);
         baggageMoment.setRawInputType(Configuration.KEYBOARD_12KEY);
 
 
-
-        oilQty = (EditText) view.findViewById(R.id.oilQty);
+        //oilQty = (EditText) view.findViewById(R.id.oilQty);
+        oilQty.setOnClickListener(editTextListener);
         oilQty.setRawInputType(Configuration.KEYBOARD_12KEY);
-        oilWeight = (EditText) view.findViewById(R.id.oilWeight);
+        //oilWeight = (EditText) view.findViewById(R.id.oilWeight);
+        oilWeight.setOnClickListener(editTextListener);
         oilWeight.setRawInputType(Configuration.KEYBOARD_12KEY);
-        oilArm = (EditText) view.findViewById(R.id.oilArm);
+        //oilArm = (EditText) view.findViewById(R.id.oilArm);
         oilArm.setRawInputType(Configuration.KEYBOARD_12KEY);
-        oilMoment = (EditText) view.findViewById(R.id.oilMoment);
+        //oilMoment = (EditText) view.findViewById(R.id.oilMoment);
         oilMoment.setRawInputType(Configuration.KEYBOARD_12KEY);
 
         //validateEditText(oilQty, "This Field cannot be empty!", alertIndicator);
-        if(oilQty.getText() == null){
+        if (oilQty.getText() == null) {
 
             // default to 6 qt
             oilQty.setText("6");
         }
 
 
-        fuelQty = (EditText) view.findViewById(R.id.fuelQty);
+        //fuelQty = (EditText) view.findViewById(R.id.fuelQty);
+        fuelQty.setOnClickListener(editTextListener);
         fuelQty.setRawInputType(Configuration.KEYBOARD_12KEY);
-        fuelWeight = (EditText) view.findViewById(R.id.fuelWeight);
+        //fuelWeight = (EditText) view.findViewById(R.id.fuelWeight);
+        fuelWeight.setOnClickListener(editTextListener);
         fuelWeight.setRawInputType(Configuration.KEYBOARD_12KEY);
 
-        fuelArm = (EditText) view.findViewById(R.id.fuelArm);
+        //fuelArm = (EditText) view.findViewById(R.id.fuelArm);
         fuelArm.setRawInputType(Configuration.KEYBOARD_12KEY);
-        fuelMoment = (EditText) view.findViewById(R.id.fuelMoment);
+        //fuelMoment = (EditText) view.findViewById(R.id.fuelMoment);
         fuelMoment.setRawInputType(Configuration.KEYBOARD_12KEY);
 
         //validateEditText(fuelQty, "This Field cannot be empty!", alertIndicator);
-        if(fuelQty.getText() == null){
+        if (fuelQty.getText() == null) {
 
             // default to 40 gallons
             fuelQty.setText("40");
@@ -224,7 +245,8 @@ public class WeightAndBalanceFragment extends Fragment {
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.d("onClick","HAHAHAHAHAHAHAHAHAHAHAHAHAHAHA");
+                validator.validate();
+
                 CGGraphFragment fragment = (CGGraphFragment) fragmentManager.findFragmentById(R.id.cg_graph_fragment);//.findFragmentByTag(CG_GRAPH_FRAGMENT_TAG);
 
                 if (fragment == null) {
@@ -234,7 +256,7 @@ public class WeightAndBalanceFragment extends Fragment {
                     cgGraphFragment.setArguments(bundle);
 
                     //fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_container, cgGraphFragment, CG_GRAPH_FRAGMENT_TAG);
+                    fragmentTransaction.replace(R.id.fragment_container, cgGraphFragment);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
 
@@ -245,6 +267,49 @@ public class WeightAndBalanceFragment extends Fragment {
                 //calculateCG();
             }
         });
+
+        resetButton = (Button) view.findViewById(R.id.reset);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view1) {
+                clearAllFields();
+            }
+        });
+    }
+
+    private void clearAllFields() {
+
+        if (emptyWeight != null) {
+            emptyWeight.setText(emptyWeight.getHint());
+        }
+
+        if (flSeatWeight != null) {
+            flSeatWeight.setText(EMPTY_SPACE);
+        }
+
+        if (rlSeatWeight != null) {
+            rlSeatWeight.setText(EMPTY_SPACE);
+        }
+
+        if (baggageWeight != null) {
+            baggageWeight.setText(EMPTY_SPACE);
+        }
+
+        if (oilQty != null) {
+            oilQty.setText(oilQty.getHint());
+        }
+
+        if (oilWeight != null) {
+            oilWeight.setText(EMPTY_SPACE);
+        }
+
+        if (fuelQty != null) {
+            fuelQty.setText(fuelQty.getHint());
+        }
+
+        if (fuelWeight != null) {
+            fuelWeight.setText(EMPTY_SPACE);
+        }
     }
 
     /**
@@ -253,9 +318,6 @@ public class WeightAndBalanceFragment extends Fragment {
      * @return cgPoint -the center of gravity
      */
     private PointF calculateCG() {
-
-        // validate all inputs first
-        //validateAllInputs();
 
         PointF cgPoint = new PointF();
         double grossWeight = 0.0;
@@ -278,45 +340,38 @@ public class WeightAndBalanceFragment extends Fragment {
 
         cg = grossWeight / grossMoment;
 
-        cgPoint.set((float) cg, (float)grossWeight);
+        cgPoint.set((float) cg, (float) grossWeight);
 
         return cgPoint;
     }
 
-    /**
-     * This method validates all inputs
-     */
-    private void validateAllInputs() {
-
-        validateEditText(emptyWeight, "This Field cannot be empty!", alertIndicator);
-        validateEditText(emptyArm, "This Field cannot be empty!", alertIndicator);
-        validateEditText(emptyMoment, "This Field cannot be empty!", alertIndicator);
-
-        validateEditText(flSeatWeight, "This Field cannot be empty!", alertIndicator);
-        validateEditText(flSeatArm, "This Field cannot be empty!", alertIndicator);
-        validateEditText(flSeatMoment, "This Field cannot be empty!", alertIndicator);
-
-        validateEditText(rlSeatWeight, "This Field cannot be empty!", alertIndicator);
-        validateEditText(rlSeatArm, "This Field cannot be empty!", alertIndicator);
-        validateEditText(rlSeatMoment, "This Field cannot be empty!", alertIndicator);
-
-        validateEditText(baggageWeight, "This Field cannot be empty!", alertIndicator);
-        validateEditText(baggageArm, "This Field cannot be empty!", alertIndicator);
-        validateEditText(baggageMoment, "This Field cannot be empty!", alertIndicator);
-
-        validateEditText(oilWeight, "This Field cannot be empty!", alertIndicator);
-        validateEditText(oilArm, "This Field cannot be empty!", alertIndicator);
-        validateEditText(oilMoment, "This Field cannot be empty!", alertIndicator);
-
-        validateEditText(fuelWeight, "This Field cannot be empty!", alertIndicator);
-        validateEditText(fuelArm, "This Field cannot be empty!", alertIndicator);
-        validateEditText(fuelMoment, "This Field cannot be empty!", alertIndicator);
+    @Override
+    public void onValidationSucceeded() {
 
     }
 
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(getActivity());
+
+            // Display error messages ;)
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else {
+                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
     // The container Activity must implement this interface so the frag can deliver messages
     public interface OnCalculateButtonPressedListener {
-        /** Called by WeightAndBalanceFragment when the calculate button is pressed */
+        /**
+         * Called by WeightAndBalanceFragment when the calculate button is pressed
+         */
         public void onWeightAndBalanceCalculate();
     }
 
@@ -336,14 +391,17 @@ public class WeightAndBalanceFragment extends Fragment {
 
 
 
-    /**
-     * @param edit
-     * @param message
-     * @param icon
-     */
-    private void validateEditText(EditText edit, String message, Drawable icon) {
-        if (edit.getText() != null && edit.getText().toString().length() == 0) {
-            edit.setError(message, icon);
+
+
+
+    private class ClickListener implements View.OnClickListener {
+
+
+        @Override
+        public void onClick(View v) {
+            if (v instanceof EditText) {
+                ((EditText) v).setText("");
+            }
         }
     }
 

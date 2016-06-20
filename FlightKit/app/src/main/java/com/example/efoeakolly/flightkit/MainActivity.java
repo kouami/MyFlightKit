@@ -1,5 +1,6 @@
 package com.example.efoeakolly.flightkit;
 
+import android.app.Application;
 import android.content.pm.ActivityInfo;
 import android.graphics.PointF;
 import android.support.v4.app.FragmentActivity;
@@ -16,6 +17,7 @@ import com.example.efoeakolly.flightkit.fragments.WeightAndBalanceFragment;
 import com.example.efoeakolly.flightkit.models.Aircrafts;
 import com.example.efoeakolly.flightkit.utils.CompatibilityUtil;
 import com.example.efoeakolly.flightkit.utils.XMLDBReader;
+import com.squareup.leakcanary.LeakCanary;
 
 public class MainActivity extends FragmentActivity implements WeightAndBalanceFragment.OnCalculateButtonPressedListener/*AppCompatActivity*/ {
 
@@ -74,10 +76,7 @@ public class MainActivity extends FragmentActivity implements WeightAndBalanceFr
 
             WeightAndBalanceFragment fragment = (WeightAndBalanceFragment) fragmentManager.findFragmentByTag(WB_FRAGMENT_TAG);
 
-            //calcButton = fragment.getCalculateButton();
 
-            //getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new CGGraphFragment()).commit();
-            //onWeightAndBalanceCalculate();
         }
 
         /*cgGraphFragment = new CGGraphFragment();
